@@ -66,10 +66,20 @@ export function updateQuantity(productId, newQuantity){
   cart.forEach(cartItem =>{
     if (cartItem.productId === productId){
       matchingProduct = cartItem;
-      matchingProduct.quantity += newQuantity;
+      if (newQuantity < 0){
+        newQuantity = 0;
+        matchingProduct.quantity += newQuantity;
+      }
+      else if (newQuantity > 1000){
+        newQuantity = 999;
+        matchingProduct.quantity += newQuantity;
+      }
+      else{
+        matchingProduct.quantity += newQuantity;
+      }
       updatedQuantity = matchingProduct.quantity;
     }
   })
   saveToStorage();
-  return updatedQuantity;
+  document.querySelector(`.js-quantity-label-${productId}`).innerHTML = updatedQuantity;
 }

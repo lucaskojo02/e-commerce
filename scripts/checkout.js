@@ -39,7 +39,7 @@ cart.forEach(cartItem=>{
                 Update
                 </span>
                 <div class="js-edit-quantity">
-                  <input type="number" class="quantity-input js-quantity-input-${matchingProduct.id}" min = 0>
+                  <input type="number" class="quantity-input js-quantity-input-${matchingProduct.id}" min = "0"  max = "1000">
                   <span class="save-quantity-link link-primary js-save-quantity-link" data-product-id="${matchingProduct.id}">Save</span>
                 </div>
                 <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${matchingProduct.id}">
@@ -143,9 +143,7 @@ cart.forEach(cartItem=>{
 
             newQuantity = Number(newQuantity);
 
-            let updatedQuantity = updateQuantity(productId,newQuantity);
-
-            document.querySelector(`.js-quantity-label-${productId}`).innerHTML = updatedQuantity;
+            updateQuantity(productId,newQuantity);
 
             displayUpdateQuantity();
 
