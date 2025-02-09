@@ -26,3 +26,7 @@ export function addToCart(productId){
       cart.push({productId,quantity})
     }
   }
+export function removeFromCart(productId){
+  const deleteLink = document.querySelector(`.js-cart-item-container-${productId}`);
+  deleteLink.remove();
+}
