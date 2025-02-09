@@ -1,5 +1,5 @@
 import { products } from '../data/products.js'
-import {cart, removeFromCart} from '../data/cart.js';
+import {cart, removeFromCart, calculateCartQuantity} from '../data/cart.js';
 import { formatCurrency } from './utils/money.js';
 
 let summaryHTML = '';
@@ -91,6 +91,14 @@ cart.forEach(cartItem=>{
         </div>
         </div>
     `
+    function displayUpdateQuantity(){
+        let quantity = calculateCartQuantity();
+        
+        document.querySelector('.js-update-quantity').innerHTML = `${quantity} items`
+    }
+
+    displayUpdateQuantity();
+
     document.querySelector('.js-order-summary').innerHTML = summaryHTML;
     document.querySelectorAll('.js-delete-link').forEach(link=>{
         link.addEventListener('click',()=>{
@@ -99,6 +107,8 @@ cart.forEach(cartItem=>{
             removeFromCart(productId);
 
             const container = document.querySelector(`.js-cart-item-container-${productId}`);
+
+            displayUpdateQuantity();
 
             container.remove();
         });
