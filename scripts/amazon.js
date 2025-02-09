@@ -1,7 +1,10 @@
-import { cart } from "../data/cart.js";
+import { cart, addToCart } from "../data/cart.js";
 import { products } from "../data/products.js";
 
 let productsHTML = '';
+
+updateCartQuantity();
+
 products.forEach(product=>{
     productsHTML +=`
     <div class="product-container">
@@ -59,47 +62,38 @@ document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
 let timeOut = {};
 
+
+function displayAddedToCartText(productId){
+  const addedDisplay = document.querySelector(`.js-added-${productId}`);
+
+  addedDisplay.classList.add('added-to-cart-display');
+
+  clearTimeout(timeOut[productId]);
+
+    timeOut[productId] = setTimeout(()=>{
+      addedDisplay.classList.remove('added-to-cart-display')
+    },2000);
+}
+
+function updateCartQuantity(){
+  let cartQuantity = 0;
+
+  cart.forEach(item=>{
+  cartQuantity += item.quantity;
+  })
+
+  document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
+}
+
 document.querySelectorAll('.js-add-to-cart').forEach(button=>{
   button.addEventListener('click',()=>{
 
     const productId = button.getAttribute('data-product-id');
-    let quantity = document.querySelector(`.js-quantity-selector-${productId}`).value;
-    
-    quantity = Number(quantity);
 
-    let matchingItem;
-    
-    cart.forEach(item=>{
-      if (productId === item.productId){
-        matchingItem = item;
-      }
-    })
+    addToCart(productId);
 
-    if (matchingItem){
-      matchingItem.quantity+=quantity;
-    }
-    else{
-      cart.push({productId,quantity})
-    }
+    updateCartQuantity();
 
-    console.log(cart);
-
-    let cartQuantity = 0;
-
-    cart.forEach(item=>{
-      cartQuantity += item.quantity;
-    })
-
-    document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
-
-    const addedDisplay = document.querySelector(`.js-added-${productId}`);
-
-    addedDisplay.classList.add('added-to-cart-display');
-
-    clearTimeout(timeOut[productId]);
-
-      timeOut[productId] = setTimeout(()=>{
-        addedDisplay.classList.remove('added-to-cart-display')
-      },2000);
+    displayAddedToCartText(productId);
   })
 })
