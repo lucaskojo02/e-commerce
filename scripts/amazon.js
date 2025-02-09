@@ -54,6 +54,8 @@ products.forEach(product=>{
 
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
+let timeOut;
+
 document.querySelectorAll('.js-add-to-cart').forEach(button=>{
   button.addEventListener('click',()=>{
 
@@ -89,6 +91,12 @@ document.querySelectorAll('.js-add-to-cart').forEach(button=>{
 
     const addedDisplay = document.querySelector(`.js-added-${productId}`);
 
-    addedDisplay.classList.add('added-to-cart-display')
+    addedDisplay.classList.add('added-to-cart-display');
+
+    clearTimeout(timeOut);
+
+    timeOut = setTimeout(()=>{
+      addedDisplay.classList.remove('added-to-cart-display')
+    },2000);
   })
 })
