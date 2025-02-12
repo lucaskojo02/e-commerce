@@ -3,7 +3,8 @@ import {cart, removeFromCart, calculateCartQuantity, updateQuantity, updateDeliv
 import { formatCurrency } from './../utils/money.js';
 import { deliveryOptions } from '../../data/deliveryOptions.js';
 import { renderPaymentSummary } from './paymentSummary.js';
-import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js' 
+import { renderCheckoutHeader } from './checkoutHeader.js';
+import { calculateDeliveryDate } from '../../data/deliveryOptions.js';
 
 export function renderOrderSummary(){
     let summaryHTML = '';
@@ -28,9 +29,7 @@ export function renderOrderSummary(){
             }
         })
 
-        const today = dayjs();
-        const deliveryDate =today.add(deliveryOption.deliveryDays, 'days');
-        const dateString = deliveryDate.format('dddd, MMMM D');
+        const dateString = calculateDeliveryDate(deliveryOption);
         
         summaryHTML += `
         <div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
@@ -80,21 +79,12 @@ export function renderOrderSummary(){
         document.querySelector('.js-order-summary').innerHTML = summaryHTML;
     })
 
-    function displayUpdateQuantity(){
-        let quantity = calculateCartQuantity();
-
-        document.querySelector('.js-update-quantity').innerHTML = `${quantity} items`
-    }
-
-    displayUpdateQuantity();
-
     function deliveryOptionsHTML(matchingProduct, cartItem){
         let html='';
 
         deliveryOptions.forEach(deliveryOption =>{
-            const today = dayjs();
-            const deliveryDate =today.add(deliveryOption.deliveryDays, 'days');
-            const dateString = deliveryDate.format('dddd, MMMM D');
+
+            const dateString = calculateDeliveryDate(deliveryOption);
 
             const priceString = deliveryOption.priceCents === 0?'FREE' :`$${formatCurrency(deliveryOption.priceCents)}`;
 
@@ -137,10 +127,11 @@ export function renderOrderSummary(){
             removeFromCart(productId);
 
             const container = document.querySelector(`.js-cart-item-container-${productId}`);
-
-            displayUpdateQuantity();
-
             container.remove();
+
+            renderCheckoutHeader();
+            renderPaymentSummary();
+            //renderOrderSummary();
         });
     })
 
@@ -170,7 +161,8 @@ export function renderOrderSummary(){
 
             updateQuantity(productId,newQuantity);
 
-            displayUpdateQuantity();
+           renderCheckoutHeader();
+           renderPaymentSummary();
 
             document.querySelector(`.js-quantity-input-${productId}`).value = '';
         })
