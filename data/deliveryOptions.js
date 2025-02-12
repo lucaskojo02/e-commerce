@@ -1,4 +1,5 @@
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js' 
+
 export const deliveryOptions = [{
     id:'1',
     deliveryDays: 7,
@@ -25,9 +26,18 @@ export function getDeliveryOption(deliveryOptionId){
 }
 
 export function calculateDeliveryDate(deliveryOption){
-    const today = dayjs();
-    const deliveryDate = today.add(deliveryOption.deliveryDays,'days');
-    const dateString = deliveryDate.format('dddd, MMMM D');
+    let today = dayjs();
+    let deliveryDate = deliveryOption.deliveryDays
+    let dateString = '';
+    let daysAdded = 0;
+
+    while (daysAdded < deliveryDate){
+        today = today.add(1, 'day');
+        if (today.day() !== 0 && today.day() !== 6){
+            daysAdded++;
+        }
+    }
+    dateString = today.format('dddd, MMMM D')
 
     return dateString;
 }
