@@ -1,5 +1,6 @@
 import { products } from '../../data/products.js'
-import {cart, removeFromCart, updateQuantity, updateDeliveryOption} from '../../data/cart.js';
+import {removeFromCart, updateQuantity, updateDeliveryOption} from '../../data/cart.js';
+import { cart } from '../../data/cart-class.js';
 import { formatCurrency } from './../utils/money.js';
 import { deliveryOptions } from '../../data/deliveryOptions.js';
 import { renderPaymentSummary } from './paymentSummary.js';
@@ -9,7 +10,7 @@ import { calculateDeliveryDate } from '../../data/deliveryOptions.js';
 export function renderOrderSummary(){
     let summaryHTML = '';
 
-    cart.forEach(cartItem=>{
+    cart.cartItems.forEach(cartItem=>{
         const productId = cartItem.productId;
         let matchingProduct = '';
 
