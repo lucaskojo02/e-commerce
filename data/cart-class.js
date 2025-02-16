@@ -26,6 +26,16 @@ class Cart{
       localStorage.setItem(this.#localStorageKey,JSON.stringify(this.cartItems))
   }
 
+  calculateCartQuantity(){
+    let cartQuantity = 0;
+  
+    this.cartItems.forEach(item=>{
+    cartQuantity += item.quantity;
+    });
+  
+    return cartQuantity;
+  }
+
   addToCart(productId){
       let matchingItem;
     
@@ -61,10 +71,35 @@ class Cart{
       this.saveToStorage();
   }
 
+  updateQuantity(productId, newQuantity){
+    let matchingProduct;
+    let updatedQuantity = 0;
+  
+    this.cartItems.forEach(cartItem =>{
+      if (cartItem.productId === productId){
+        matchingProduct = cartItem;
+        if (newQuantity < 0){
+          newQuantity = 0;
+          matchingProduct.quantity += newQuantity;
+        }
+        else if (newQuantity > 1000){
+          newQuantity = 999;
+          matchingProduct.quantity += newQuantity;
+        }
+        else{
+          matchingProduct.quantity += newQuantity;
+        }
+        updatedQuantity = matchingProduct.quantity;
+      }
+    })
+    this.saveToStorage();
+    document.querySelector(`.js-quantity-label-${productId}`).innerHTML = updatedQuantity;
+  }
+
   updateDeliveryOption(productId, deliveryOptionId){
       let matchingItem;
     
-      cart.forEach(item=>{
+      this.cartItems.forEach(item=>{
           if(productId === item.productId){
               matchingItem = item;
           }

@@ -1,5 +1,4 @@
 import { products } from '../../data/products.js'
-import {removeFromCart, updateQuantity, updateDeliveryOption} from '../../data/cart.js';
 import { cart } from '../../data/cart-class.js';
 import { formatCurrency } from './../utils/money.js';
 import { deliveryOptions } from '../../data/deliveryOptions.js';
@@ -115,7 +114,7 @@ export function renderOrderSummary(){
         element.addEventListener('click',()=>{
             const productId = element.getAttribute('data-product-id');
             const deliveryOptionId = element.getAttribute('data-delivery-option-id');
-            updateDeliveryOption(productId,deliveryOptionId);
+            cart.updateDeliveryOption(productId,deliveryOptionId);
             renderOrderSummary();
             renderPaymentSummary();
         })
@@ -125,7 +124,7 @@ export function renderOrderSummary(){
         link.addEventListener('click',()=>{
             const productId = link.getAttribute('data-product-id');
 
-            removeFromCart(productId);
+            cart.removeFromCart(productId);
 
             const container = document.querySelector(`.js-cart-item-container-${productId}`);
             container.remove();
@@ -160,7 +159,7 @@ export function renderOrderSummary(){
 
             newQuantity = Number(newQuantity);
 
-            updateQuantity(productId,newQuantity);
+            cart.updateQuantity(productId,newQuantity);
 
            renderCheckoutHeader();
            renderPaymentSummary();

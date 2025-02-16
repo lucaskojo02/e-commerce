@@ -1,4 +1,3 @@
-import { calculateCartQuantity } from "../../data/cart.js";
 import { cart} from "../../data/cart-class.js";
 import { getProduct} from "../../data/products.js";
 import { getDeliveryOption } from "../../data/deliveryOptions.js";
@@ -21,7 +20,7 @@ export function renderPaymentSummary(){
     const totalBeforeTax = productPriceCents + shippingPriceCents;
     const taxCents = totalBeforeTax*0.1;
     const totalCents = totalBeforeTax + taxCents;
-    const quantity = calculateCartQuantity();
+    const quantity = cart.calculateCartQuantity();
 
     const html = `
     <div class="payment-summary-title">

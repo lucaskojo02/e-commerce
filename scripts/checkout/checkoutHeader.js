@@ -1,6 +1,6 @@
-import { calculateCartQuantity } from "../../data/cart.js";
+import { cart } from "../../data/cart-class.js";
 
 export function renderCheckoutHeader(){
-    let quantity = calculateCartQuantity()
+    let quantity = cart.calculateCartQuantity()
      document.querySelector('.js-update-quantity').innerHTML = `${quantity} items`
 }
