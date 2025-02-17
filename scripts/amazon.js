@@ -1,96 +1,100 @@
 import { calculateCartQuantity, addToCart } from "../data/cart.js";
-import { products } from "../data/products.js";
+import { products, loadProducts } from "../data/products.js";
 
-let productsHTML = '';
+loadProducts(renderProductsGrid)
 
-updateCartQuantity();
+function renderProductsGrid(){
+  let productsHTML = '';
 
-products.forEach(product=>{
-    productsHTML +=`
-    <div class="product-container">
-          <div class="product-image-container">
-            <img class="product-image"
-              src="${product.image}">
-          </div>
+  updateCartQuantity();
 
-          <div class="product-name limit-text-to-2-lines">
-            ${product.name}
-          </div>
-
-          <div class="product-rating-container">
-            <img class="product-rating-stars"
-              src="${product.getStarsUrl()}">
-            <div class="product-rating-count link-primary">
-              ${product.rating.count}
+  products.forEach(product=>{
+      productsHTML +=`
+      <div class="product-container">
+            <div class="product-image-container">
+              <img class="product-image"
+                src="${product.image}">
             </div>
+
+            <div class="product-name limit-text-to-2-lines">
+              ${product.name}
+            </div>
+
+            <div class="product-rating-container">
+              <img class="product-rating-stars"
+                src="${product.getStarsUrl()}">
+              <div class="product-rating-count link-primary">
+                ${product.rating.count}
+              </div>
+            </div>
+
+            <div class="product-price">
+              ${product.getPrice()}
+            </div>
+
+            <div class="product-quantity-container">
+              <select class="js-quantity-selector-${product.id}">
+                <option selected value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+              </select>
+            </div>
+
+            ${product.extraInfoHTML()}
+            <div class="product-spacer"></div>
+
+            <div class="added-to-cart js-added-${product.id}">
+              <img src="images/icons/checkmark.png">
+              Added
+            </div>
+
+            <button class="add-to-cart-button button-primary js-add-to-cart" data-product-id="${product.id}">
+              Add to Cart
+            </button>
           </div>
+      `;
+  });
 
-          <div class="product-price">
-            ${product.getPrice()}
-          </div>
+  document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
-          <div class="product-quantity-container">
-            <select class="js-quantity-selector-${product.id}">
-              <option selected value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-              <option value="10">10</option>
-            </select>
-          </div>
-
-          ${product.extraInfoHTML()}
-          <div class="product-spacer"></div>
-
-          <div class="added-to-cart js-added-${product.id}">
-            <img src="images/icons/checkmark.png">
-            Added
-          </div>
-
-          <button class="add-to-cart-button button-primary js-add-to-cart" data-product-id="${product.id}">
-            Add to Cart
-          </button>
-        </div>
-    `;
-});
-
-document.querySelector('.js-products-grid').innerHTML = productsHTML;
-
-let timeOut = {};
+  let timeOut = {};
 
 
-function displayAddedToCartText(productId){
-  const addedDisplay = document.querySelector(`.js-added-${productId}`);
+  function displayAddedToCartText(productId){
+    const addedDisplay = document.querySelector(`.js-added-${productId}`);
 
-  addedDisplay.classList.add('added-to-cart-display');
+    addedDisplay.classList.add('added-to-cart-display');
 
-  clearTimeout(timeOut[productId]);
+    clearTimeout(timeOut[productId]);
 
-    timeOut[productId] = setTimeout(()=>{
-      addedDisplay.classList.remove('added-to-cart-display')
-    },2000);
-}
+      timeOut[productId] = setTimeout(()=>{
+        addedDisplay.classList.remove('added-to-cart-display')
+      },2000);
+  }
 
-function updateCartQuantity(){
-  const cartQuantity = calculateCartQuantity();
+  function updateCartQuantity(){
+    const cartQuantity = calculateCartQuantity();
 
-  document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
-}
+    document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
+  }
 
-document.querySelectorAll('.js-add-to-cart').forEach(button=>{
-  button.addEventListener('click',()=>{
+  document.querySelectorAll('.js-add-to-cart').forEach(button=>{
+    button.addEventListener('click',()=>{
 
-    const productId = button.getAttribute('data-product-id');
+      const productId = button.getAttribute('data-product-id');
 
-    addToCart(productId);
+      addToCart(productId);
 
-    updateCartQuantity();
+      updateCartQuantity();
 
-    displayAddedToCartText(productId);
+      displayAddedToCartText(productId);
+    })
   })
-})
+}
