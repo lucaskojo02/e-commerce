@@ -2,8 +2,11 @@ import { orders} from "../data/orders.js";
 import { cart } from "../data/cart-class.js";
 import { formatCurrency } from "./utils/money.js";
 
-let quantity = cart.calculateCartQuantity();
-document.querySelector('.js-cart-quantity').innerHTML = quantity;
+updateQuantity();
+function updateQuantity(){
+    let quantity = cart.calculateCartQuantity();
+    document.querySelector('.js-cart-quantity').innerHTML = quantity;
+}
 
 async function renderOrder(){
     let headerHTML =''
@@ -34,7 +37,7 @@ async function renderOrder(){
                     <div class="product-quantity">
                     Quantity: ${product.quantity}
                     </div>
-                    <button class="buy-again-button button-primary">
+                    <button class="buy-again-button button-primary js-buy-again-button" data-product-id = "${product.productId}">
                     <img class="buy-again-icon" src="images/icons/buy-again.png">
                     <span class="buy-again-message">Buy it again</span>
                     </button>
@@ -48,6 +51,9 @@ async function renderOrder(){
                     </a>
                 </div>
             `;
+           /* document.querySelector(`.js-buy-again-button-${product.productId}`).addEventListener('click',()=>{
+                cart.addToCart(matchingItem.id);
+            })*/
         })
         headerHTML += `
         <div class="order-container">
@@ -77,6 +83,15 @@ async function renderOrder(){
         console.log(order);
     })
     document.querySelector('.js-orders-grid').innerHTML = headerHTML;
+    
+    document.querySelectorAll('.js-buy-again-button').forEach(button=>{
+        button.addEventListener('click',()=>{
+            const productId = button.getAttribute('data-product-id')
+            cart.addToCart(productId);
+            updateQuantity();
+            console.log(`clicked ${productId}`);
+        })
+    })
 }
 
 renderOrder();

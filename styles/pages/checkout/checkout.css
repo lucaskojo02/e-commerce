@@ -137,6 +137,14 @@
 .js-edit-quantity{
   display: inline-block;
 }
+.empty-cart-message{
+  margin-bottom: 20px;
+}
+.view-products-link{
+  text-decoration: none;
+  padding: 8px 15px;
+  font-size: 16px;
+}
 
 
 @media (max-width: 1000px) {

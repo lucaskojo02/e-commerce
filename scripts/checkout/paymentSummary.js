@@ -59,26 +59,57 @@ export function renderPaymentSummary(){
     `;
     document.querySelector('.js-payment-summary').innerHTML = html;
 
-    document.querySelector('.js-place-order').addEventListener('click',async()=>{
-      try{
-          const response = await fetch('https://supersimplebackend.dev/orders',{
-              method:'POST',
-              headers:{
-                  'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({
-                  cart: cart
-              })
-          })
+  if (cart.calculateCartQuantity() === 0){
+    document.querySelector('.js-order-summary').innerHTML = '<div class="empty-cart-message">Your cart is empty.</div> <a href="amazon.html" class="button-primary view-products-link">View Products</a>';
+    
+      document.querySelector('.js-place-order').removeEventListener('click',async()=>{
+        try{
+            const response = await fetch('https://supersimplebackend.dev/orders',{
+                method:'POST',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    cart: cart
+                })
+            })
+    
+           const order = await response.json();
+           addOrder(order);
+           console.log(order);
   
-         const order = await response.json();
-         addOrder(order);
-         console.log(order);
+        }catch(error){
+            console.log('Unexpected error. Try again later.')
+        }
+        
+       window.location.href = 'orders.html';
+       localStorage.removeItem('cart');}
+      )
+    }
 
-      }catch(error){
-          console.log('Unexpected error. Try again later.')
-      }
-      
-     window.location.href = 'orders.html';
-  })
+    else{
+      document.querySelector('.js-place-order').addEventListener('click',async()=>{
+        try{
+            const response = await fetch('https://supersimplebackend.dev/orders',{
+                method:'POST',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    cart: cart
+                })
+            })
+    
+           const order = await response.json();
+           addOrder(order);
+           console.log(order);
+  
+        }catch(error){
+            console.log('Unexpected error. Try again later.')
+        }
+        
+       window.location.href = 'orders.html';
+       localStorage.removeItem('cart');
+    })
+    }
 }
