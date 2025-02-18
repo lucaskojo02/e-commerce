@@ -1,6 +1,7 @@
 import { orders} from "../data/orders.js";
 import { cart } from "../data/cart-class.js";
 import { formatCurrency } from "./utils/money.js";
+import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js'
 
 updateQuantity();
 function updateQuantity(){
@@ -44,7 +45,7 @@ async function renderOrder(){
                 </div>
 
                 <div class="product-actions">
-                    <a href="tracking.html">
+                    <a href="tracking.html?orderId=${order.id}&productId=${product.productId}">
                     <button class="track-package-button button-secondary">
                         Track package
                     </button>
@@ -55,13 +56,16 @@ async function renderOrder(){
                 cart.addToCart(matchingItem.id);
             })*/
         })
+        const date = order.orderTime
+        const today = dayjs(date);
+        const orderDay = today.format('MMMM D')
         headerHTML += `
         <div class="order-container">
         <div class="order-header">
         <div class="order-header-left-section">
             <div class="order-date">
             <div class="order-header-label">Order Placed:</div>
-            <div>June 10</div>
+            <div>${orderDay}</div>
             </div>
             <div class="order-total">
             <div class="order-header-label">Total:</div>
@@ -79,8 +83,6 @@ async function renderOrder(){
         </div>
         </div>
         `;
-        console.log(html)
-        console.log(order);
     })
     document.querySelector('.js-orders-grid').innerHTML = headerHTML;
     
@@ -89,7 +91,6 @@ async function renderOrder(){
             const productId = button.getAttribute('data-product-id')
             cart.addToCart(productId);
             updateQuantity();
-            console.log(`clicked ${productId}`);
         })
     })
 }
