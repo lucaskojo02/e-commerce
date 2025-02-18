@@ -2,6 +2,7 @@ import { cart} from "../../data/cart-class.js";
 import { getProduct} from "../../data/products.js";
 import { getDeliveryOption } from "../../data/deliveryOptions.js";
 import { formatCurrency } from "../utils/money.js";
+import { addOrder } from "../../data/orders.js";
 
 export function renderPaymentSummary(){
     let productPriceCents = 0;
@@ -72,11 +73,12 @@ export function renderPaymentSummary(){
   
          const order = await response.json();
          addOrder(order);
+         console.log(order);
 
       }catch(error){
           console.log('Unexpected error. Try again later.')
       }
       
-      window.location.href = 'orders.html';
+     window.location.href = 'orders.html';
   })
 }

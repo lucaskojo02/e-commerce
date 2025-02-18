@@ -73,7 +73,7 @@ class Appliance extends Product{
 export let products = [];
 
 export function loadProductsFetch(){
-  const promise = fetch('https://lucaskojo02.github.io/backend.dev/products.json').then((response)=>{
+  const promise = fetch('https://supersimplebackend.dev/products').then((response)=>{
     return response.json();
   }).then((productsData)=>{
     products = productsData.map((productDetails)=>{
@@ -115,7 +115,7 @@ export function loadProducts(fun){
   xhr.addEventListener('error',()=>{
     console.log('Unexpected error. Please try again later.');
   })
-  xhr.open('GET','https://lucaskojo02.github.io/backend.dev/products.json');
+  xhr.open('GET','https://supersimplebackend.dev/products');
   xhr.send();
 }
 
