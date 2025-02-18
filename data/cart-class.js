@@ -36,9 +36,8 @@ class Cart{
   
     return cartQuantity;
   }
-
-  addToCart(productId){
-      let matchingItem;
+  buyAgain(productId){
+    let matchingItem;
     
       this.cartItems.forEach(item=>{
           if(productId === item.productId){
@@ -55,6 +54,28 @@ class Cart{
               quantity: 1,
               deliveryOptionId: '1'
           });
+      }
+      this.saveToStorage();
+  }
+
+  addToCart(productId){
+    let quantity = document.querySelector(`.js-quantity-selector-${productId}`).value;
+      
+    quantity = Number(quantity);
+
+      let matchingItem;
+    
+      this.cartItems.forEach(item=>{
+          if(productId === item.productId){
+              matchingItem = item;
+          }
+      });
+    
+      if(matchingItem){
+          matchingItem.quantity++;
+      }
+      else{
+          this.cartItems.push({productId,quantity, deliveryOptionId :'1'})
       }
       this.saveToStorage();
   }

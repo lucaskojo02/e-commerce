@@ -91,7 +91,7 @@ async function renderOrder(){
     document.querySelectorAll('.js-buy-again-button').forEach(button=>{
         button.addEventListener('click',()=>{
             const productId = button.getAttribute('data-product-id')
-            cart.addToCart(productId);
+            cart.buyAgain(productId);
             updateQuantity();
         })
     })
