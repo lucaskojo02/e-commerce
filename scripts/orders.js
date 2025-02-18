@@ -23,6 +23,10 @@ async function renderOrder(){
                     matchingItem = productDetails;
                 }
             });
+            const deliveryTime = product.estimatedDeliveryTime
+            let deliveryDate = dayjs(deliveryTime);
+            deliveryDate = deliveryDate.format('MMMM D')
+            
             html+=`
                 <div class="product-image-container">
                     <img src="${matchingItem.image}">
@@ -33,7 +37,7 @@ async function renderOrder(){
                     ${matchingItem.name}
                     </div>
                     <div class="product-delivery-date">
-                    Arriving on: June 17
+                    Arriving on: ${deliveryDate}
                     </div>
                     <div class="product-quantity">
                     Quantity: ${product.quantity}
@@ -52,9 +56,6 @@ async function renderOrder(){
                     </a>
                 </div>
             `;
-           /* document.querySelector(`.js-buy-again-button-${product.productId}`).addEventListener('click',()=>{
-                cart.addToCart(matchingItem.id);
-            })*/
         })
         const date = order.orderTime
         const today = dayjs(date);
@@ -83,6 +84,7 @@ async function renderOrder(){
         </div>
         </div>
         `;
+        console.log(order)
     })
     document.querySelector('.js-orders-grid').innerHTML = headerHTML;
     
