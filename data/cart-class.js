@@ -148,10 +148,9 @@ class Cart{
     try {
       const response = await fetch('https://supersimplebackend.dev/cart');
       const data = await response.json();
-      console.log(data);
       fun();
     } catch (error) {
-      console.error('Error loading cart:', error);
+      console.log('Error loading cart:', error);
     }
   }
 }

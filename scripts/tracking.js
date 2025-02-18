@@ -1,6 +1,8 @@
 import { orders } from "../data/orders.js";
-import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js'
+import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
+import { cart } from "../data/cart-class.js";
 
+updateQuantity()
 
 const url = new URL(window.location.href)
 url.searchParams.get('orderId');
@@ -70,6 +72,11 @@ async function renderHTML(){
         document.querySelector('.js-order-tracking').innerHTML = html
 }
 renderHTML();
+
+function updateQuantity(){
+    let quantity = cart.calculateCartQuantity();
+    document.querySelector('.js-cart-quantity').innerHTML = quantity;
+}
 /*<div class="delivery-date">
           Arriving on Monday, June 13
         </div>

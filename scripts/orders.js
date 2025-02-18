@@ -4,7 +4,7 @@ import { formatCurrency } from "./utils/money.js";
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js'
 
 updateQuantity();
-function updateQuantity(){
+export function updateQuantity(){
     let quantity = cart.calculateCartQuantity();
     document.querySelector('.js-cart-quantity').innerHTML = quantity;
 }
@@ -84,7 +84,6 @@ async function renderOrder(){
         </div>
         </div>
         `;
-        console.log(order)
     })
     document.querySelector('.js-orders-grid').innerHTML = headerHTML;
     
