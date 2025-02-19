@@ -117,7 +117,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const params = new URLSearchParams(window.location.search);
     const savedValue =params.get("search");
     if (savedValue) {
-        console.log("Saved search value:", savedValue);
         const searchInput = document.querySelector('.js-search-bar');
         if (searchInput) {
             searchInput.value = savedValue;
