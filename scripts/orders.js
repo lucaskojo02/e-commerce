@@ -125,3 +125,15 @@ function saveSearchItem() {
 }
 
 saveSearchItem();
+
+document.querySelector('.js-search-bar').addEventListener('keydown',event=>{
+    if (event.key === 'Enter'){
+      event.preventDefault();
+      let inputValue = document.querySelector('.js-search-bar').value.trim();
+      
+      if (inputValue) {
+          let newURL = `amazon.html?search=${encodeURIComponent(inputValue)}`;
+          window.location.href = newURL; // Update URL and reload the page
+      }
+    }
+  })
