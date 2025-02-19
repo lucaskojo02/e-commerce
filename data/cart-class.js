@@ -132,27 +132,6 @@ class Cart{
       this.saveToStorage();
   }
 
-  /*loadCart(fun){
-    const xhr = new XMLHttpRequest();
-  
-    xhr.addEventListener('load',()=>{
-        console.log(xhr.response)
-
-      fun();
-    })
-    xhr.open('GET','https://supersimplebackend.dev/cart');
-    xhr.send();
-  }*/
-
-  async loadCartFetch(fun) {
-    try {
-      const response = await fetch('https://supersimplebackend.dev/cart');
-      const data = await response.json();
-      fun();
-    } catch (error) {
-      console.log('Error loading cart:', error);
-    }
-  }
 }
 
 export const cart =new Cart('cart');
