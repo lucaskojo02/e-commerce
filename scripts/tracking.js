@@ -7,6 +7,7 @@ updateQuantity()
 const url = new URL(window.location.href)
 url.searchParams.get('orderId');
 url.searchParams.get('productId')
+let progress = '';
 
 async function renderHTML(){
     let html = ''
@@ -30,18 +31,24 @@ async function renderHTML(){
             order.products.forEach(product=>{
                 if (productId === product.productId){
                     matchingProduct = product
+                    //orderTime = order.orderTime
                 }
             })
         }
+        //orderTime = order.orderTime
     })
+    let currentTime = dayjs();
     const deliveryDate = dayjs(matchingProduct.estimatedDeliveryTime);
+    const orderTime = dayjs(orderFromOrders.orderTime)
+    progress = ((currentTime - orderTime)/(deliveryDate-orderTime))*100;
+    progress =  Math.round(progress);
     let deliveryDay = deliveryDate.format('dddd, MMMM D');
     html += `
             <a class="back-to-orders-link link-primary" href="orders.html">
              View all orders
             </a>
             <div class="delivery-date">
-            Arriving on ${deliveryDay}
+            <span class="js-order-arrival">Arriving</span> on ${deliveryDay}
             </div>
 
             <div class="product-info">
@@ -53,23 +60,35 @@ async function renderHTML(){
             </div>
 
             <img class="product-image" src="${matchingItem.image}"></img>
-            <div class="progress-labels-container">
-            <div class="progress-label">
+            <div class="progress-labels-container" >
+            <div class="progress-label js-preparing">
                 Preparing
             </div>
-            <div class="progress-label current-status">
+            <div class="progress-label js-shipped">
                 Shipped
             </div>
-            <div class="progress-label">
+            <div class="progress-label js-delivered">
                 Delivered
             </div>
             </div>
 
             <div class="progress-bar-container">
-            <div class="progress-bar"></div>
+            <div class="progress-bar js-progress-bar"></div>
             </div>
         `;
         document.querySelector('.js-order-tracking').innerHTML = html
+        document.querySelector('.js-progress-bar').style.width = `${progress}%`
+
+        if (progress >= 0 && progress<=49){
+            document.querySelector('.js-preparing').classList.add('current-status')
+        }
+        else if (progress > 49 && progress<=99){
+            document.querySelector('.js-shipped').classList.add('current-status')
+        }
+        else if (progress === 100){
+            document.querySelector('.js-delivered').classList.add('current-status')
+            document.querySelector('.js-order-arrival').innerHTML = 'Delivered'
+        }
 }
 renderHTML();
 
@@ -77,16 +96,3 @@ function updateQuantity(){
     let quantity = cart.calculateCartQuantity();
     document.querySelector('.js-cart-quantity').innerHTML = quantity;
 }
-/*<div class="delivery-date">
-          Arriving on Monday, June 13
-        </div>
-
-        <div class="product-info">
-          Black and Gray Athletic Cotton Socks - 6 Pairs
-        </div>
-
-        <div class="product-info">
-          Quantity: 1
-        </div>
-
-        <img class="product-image" src="images/products/athletic-cotton-socks-6-pairs.jpg"></img>*/

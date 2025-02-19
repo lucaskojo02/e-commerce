@@ -1,7 +1,7 @@
 import { orders} from "../data/orders.js";
 import { cart } from "../data/cart-class.js";
 import { formatCurrency } from "./utils/money.js";
-import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js'
+import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 
 updateQuantity();
 export function updateQuantity(){
@@ -25,7 +25,9 @@ async function renderOrder(){
             });
             const deliveryTime = product.estimatedDeliveryTime
             let deliveryDate = dayjs(deliveryTime);
-            deliveryDate = deliveryDate.format('MMMM D')
+            
+            
+            deliveryDate = deliveryDate.format('MMMM D');
             
             html+=`
                 <div class="product-image-container">
@@ -37,7 +39,7 @@ async function renderOrder(){
                     ${matchingItem.name}
                     </div>
                     <div class="product-delivery-date">
-                    Arriving on: ${deliveryDate}
+                    <span class="js-order-arrival">Arriving</span> on: ${deliveryDate}
                     </div>
                     <div class="product-quantity">
                     Quantity: ${product.quantity}
@@ -86,6 +88,17 @@ async function renderOrder(){
         `;
     })
     document.querySelector('.js-orders-grid').innerHTML = headerHTML;
+
+    orders.forEach(order=>{
+        order.products.forEach(product=>{
+            const deliveryDay = dayjs(product.estimatedDeliveryTime)
+            const currentTime = dayjs();
+            
+            if ((currentTime - deliveryDay)>=0){
+                document.querySelector('.js-order-arrival').innerHTML = 'Delivered'
+            }
+        })
+    })
     
     document.querySelectorAll('.js-buy-again-button').forEach(button=>{
         button.addEventListener('click',()=>{
