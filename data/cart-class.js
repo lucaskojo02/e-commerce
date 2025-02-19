@@ -72,7 +72,7 @@ class Cart{
       });
     
       if(matchingItem){
-          matchingItem.quantity++;
+          matchingItem.quantity+=quantity;
       }
       else{
           this.cartItems.push({productId,quantity, deliveryOptionId :'1'})

@@ -96,3 +96,18 @@ function updateQuantity(){
     let quantity = cart.calculateCartQuantity();
     document.querySelector('.js-cart-quantity').innerHTML = quantity;
 }
+
+function saveSearchItem() {
+    const searchButton = document.querySelector('.js-search-button');
+
+    searchButton.addEventListener('click', () => {
+        let inputValue = document.querySelector('.js-search-bar').value.trim();
+        
+        if (inputValue) {
+            let newURL = `amazon.html?search=${encodeURIComponent(inputValue)}`;
+            window.location.href = newURL;
+        }
+    });
+}
+
+saveSearchItem();
