@@ -83,11 +83,6 @@
     display: grid;
     grid-template-columns: auto 1fr;
   }
-  .order-details-grid {
-    grid-template-columns: 110px 1fr;
-    row-gap: 0;
-    padding-bottom: 8px;
-  }
 }
 
 .order-details-grid {
@@ -111,11 +106,11 @@
     padding-bottom: 8px;
   }
 }
-/*@media (max-width: 450px) {
+@media (max-width: 450px) {
   .order-details-grid {
     grid-template-columns: 1fr;
   }
-}*/
+}
 .product-image-container {
   text-align: center;
 }
