@@ -49,18 +49,7 @@
 
 @media (max-width: 575px) {
   .progress-labels-container {
-    font-size: 16px;
-  }
-}
-
-@media (max-width: 450px) {
-  .progress-labels-container {
-    flex-direction: column;
-    margin-bottom: 5px;
-  }
-
-  .progress-label {
-    margin-bottom: 3px;
+    font-size: 15px;
   }
 }
 
