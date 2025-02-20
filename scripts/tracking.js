@@ -85,7 +85,7 @@ async function renderHTML(){
         else if (progress > 49 && progress<=99){
             document.querySelector('.js-shipped').classList.add('current-status')
         }
-        else if (progress === 100){
+        else if (progress >= 100){
             document.querySelector('.js-delivered').classList.add('current-status')
             document.querySelector('.js-order-arrival').innerHTML = 'Delivered'
         }
