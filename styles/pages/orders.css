@@ -106,13 +106,11 @@
     padding-bottom: 8px;
   }
 }
-
 @media (max-width: 450px) {
   .order-details-grid {
     grid-template-columns: 1fr;
   }
 }
-
 .product-image-container {
   text-align: center;
 }
