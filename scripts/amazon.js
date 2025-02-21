@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
         
         setTimeout(() => {
             displaySearch(savedValue);
-        }, 400); // Simulate loading delay
+        }, 600); // Simulate loading delay
     }
 });
 
