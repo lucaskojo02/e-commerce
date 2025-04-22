@@ -1,5 +1,5 @@
 import { orders } from "../data/orders.js";
-import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
+import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 import { cart } from "../data/cart-class.js";
 
 updateQuantity()
